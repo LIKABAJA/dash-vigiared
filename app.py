@@ -56,4 +56,5 @@ def update_active_links(pathname):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, dev_tools_ui=False, host='0.0.0.0', port=8050)
+    app.run(debug=True, dev_tools_ui=False, host='192.168.1.11', port=8050)
+    
