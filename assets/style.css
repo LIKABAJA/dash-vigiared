@@ -1,0 +1,241 @@
+/* ==========================================================
+   PALETA DE COLORES INSTITUCIONAL - VIGÍARED ENERGÍA S.A.S.
+   ========================================================== */
+:root {
+    --azul-institucional: #17324D;
+    --verde-analitico: #2A9D8F;
+    --ambar-atencion: #E9A23B;
+    --rojo-riesgo: #D9534F;
+    --fondo-general: #F4F6F8;
+    --blanco-tarjetas: #FFFFFF;
+    --texto-secundario: #607080;
+}
+
+/* General Body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--fondo-general);
+}
+
+/* ==========================================================
+   BARRA LATERAL (SIDEBAR)
+   ========================================================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    padding: 25px 15px;
+    background-color: var(--azul-institucional);
+    color: #FFFFFF;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.sidebar-subtitle {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--verde-analitico);
+    font-weight: bold;
+}
+
+/* Enlaces de Navegación */
+.nav-link {
+    display: block;
+    padding: 12px 15px;
+    color: #FFFFFF !important;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Estado activo resaltado en verde */
+.nav-link-active {
+    background-color: #2A9D8F !important;
+    font-weight: bold;
+}
+
+/* ==========================================================
+   CONTENEDOR PRINCIPAL Y CABECERA
+   ========================================================== */
+.main-content {
+    margin-left: 250px;
+    padding: 20px 30px;
+    background-color: var(--fondo-general);
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.top-header {
+    background-color: var(--azul-institucional);
+    padding: 15px 25px;
+    margin: -20px -30px 25px -30px;
+}
+
+.user-profile {
+    float: right;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ==========================================================
+   TARJETAS Y COMPONENTES DE PÁGINAS
+   ========================================================== */
+.card-banner {
+    background-color: var(--blanco-tarjetas);
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.banner-welcome {
+    color: var(--texto-secundario);
+    margin: 0 0 4px 0;
+    font-weight: normal;
+}
+
+.banner-title {
+    color: var(--azul-institucional);
+    margin: 0 0 4px 0;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.banner-slogan {
+    color: var(--azul-institucional);
+    font-style: italic;
+    margin: 0 0 12px 0;
+    font-weight: 500;
+}
+
+.banner-text {
+    color: var(--texto-secundario);
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: 700px;
+}
+
+/* Grilla de KPIs */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.kpi-card {
+    background-color: var(--blanco-tarjetas);
+    border-radius: 8px;
+    padding: 15px 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.kpi-icon {
+    font-size: 26px;
+}
+
+.kpi-value-main {
+    margin: 0;
+    color: var(--azul-institucional);
+    font-size: 22px;
+}
+
+.kpi-value-green {
+    margin: 0;
+    color: var(--verde-analitico);
+    font-size: 22px;
+}
+
+.kpi-value-red {
+    margin: 0;
+    color: var(--rojo-riesgo);
+    font-size: 22px;
+}
+
+.kpi-label {
+    color: var(--texto-secundario);
+    font-size: 12px;
+}
+
+/* Grilla de Gráficos */
+.charts-grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.chart-card {
+    background-color: var(--blanco-tarjetas);
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.chart-title {
+    color: var(--azul-institucional);
+    margin: 0 0 10px 0;
+    font-size: 15px;
+}
+
+/* Contenedor del logo en la esquina superior del sidebar */
+.sidebar-logo-container {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ajuste de la imagen del logo */
+.sidebar-logo-img {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Fondo del Menú Lateral */
+.sidebar {
+    background-image: url('/assets/sidebar-bg.png');
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain;
+}
+
+/* Fondo del Banner Superior */
+.card-banner {
+    background-image: url('/assets/banner-bg.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: cover;
+}
