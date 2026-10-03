@@ -20,7 +20,7 @@ body {
 }
 
 /* ==========================================================
-   BARRA LATERAL (SIDEBAR)
+   BARRA LATERAL (SIDEBAR) CON ANIMACIÓN DE COLAPSO
    ========================================================== */
 .sidebar {
     position: fixed;
@@ -30,9 +30,19 @@ body {
     width: 250px;
     padding: 25px 15px;
     background-color: var(--azul-institucional);
+    background-image: url('/assets/sidebar-bg.png');
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain;
     color: #FFFFFF;
     box-sizing: border-box;
     z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Estado de la barra lateral OCULTA */
+.sidebar-collapsed {
+    transform: translateX(-100%);
 }
 
 .sidebar-header {
@@ -56,6 +66,24 @@ body {
     font-weight: bold;
 }
 
+/* Contenedor del logo en la esquina superior del sidebar */
+.sidebar-logo-container {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ajuste de la imagen del logo */
+.sidebar-logo-img {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
 /* Enlaces de Navegación */
 .nav-link {
     display: block;
@@ -75,7 +103,7 @@ body {
 
 /* Estado activo resaltado en verde */
 .nav-link-active {
-    background-color: #2A9D8F !important;
+    background-color: var(--verde-analitico) !important;
     font-weight: bold;
 }
 
@@ -88,12 +116,38 @@ body {
     background-color: var(--fondo-general);
     min-height: 100vh;
     box-sizing: border-box;
+    transition: margin-left 0.3s ease-in-out;
 }
 
+/* Expande el contenido cuando la barra lateral está oculta */
+.main-content-expanded {
+    margin-left: 0 !important;
+}
+
+/* Franja superior con alineación de botón */
 .top-header {
     background-color: var(--azul-institucional);
-    padding: 15px 25px;
+    padding: 10px 25px;
     margin: -20px -30px 25px -30px;
+    display: flex;
+    align-items: center;
+}
+
+/* Botón de Menú (☰) */
+.toggle-btn {
+    background-color: var(--verde-analitico);
+    color: #FFFFFF;
+    border: none;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.toggle-btn:hover {
+    background-color: #238377;
 }
 
 .user-profile {
@@ -108,6 +162,10 @@ body {
    ========================================================== */
 .card-banner {
     background-color: var(--blanco-tarjetas);
+    background-image: url('/assets/banner-bg.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: cover;
     border-radius: 10px;
     padding: 22px;
     margin-bottom: 20px;
@@ -190,52 +248,694 @@ body {
 .charts-grid-2col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 14px !important;
+    margin-top: 10px !important;
 }
 
 .chart-card {
     background-color: var(--blanco-tarjetas);
     border-radius: 10px;
-    padding: 18px;
+    padding: 14px 16px !important;
     box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 
 .chart-title {
     color: var(--azul-institucional);
-    margin: 0 0 10px 0;
+    margin-top: 0 !important;
+    margin-bottom: 6px !important;
     font-size: 15px;
 }
 
-/* Contenedor del logo en la esquina superior del sidebar */
-.sidebar-logo-container {
-    text-align: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* ==========================================
+   AUTORES - PÁGINA DE INICIO
+========================================== */
+.authors-box {
+    margin-top: 22px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.75);
+    border-left: 4px solid var(--verde-analitico);
+    border-radius: 8px;
 }
 
-/* Ajuste de la imagen del logo */
-.sidebar-logo-img {
-    width: 100%;
-    max-width: 180px;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto;
+.authors-title {
+    margin: 0 0 10px 0;
+    color: var(--azul-institucional);
+    font-size: 18px;
+    font-weight: 700;
 }
 
-/* Fondo del Menú Lateral */
-.sidebar {
-    background-image: url('/assets/sidebar-bg.png');
-    background-repeat: no-repeat;
-    background-position: bottom center;
-    background-size: contain;
+.author-name {
+    margin: 3px 0;
+    color: var(--azul-institucional);
+    font-size: 14px;
+    font-weight: 600;
 }
 
-/* Fondo del Banner Superior */
-.card-banner {
-    background-image: url('/assets/banner-bg.png');
-    background-repeat: no-repeat;
-    background-position: right center;
+.authors-university {
+    margin-top: 10px;
+    margin-bottom: 0;
+    color: var(--texto-secundario);
+    font-size: 13px;
+}
+
+/* ==========================================
+   BANNER COMPACTO - DASHBOARD
+========================================== */
+.dashboard-banner {
+    height: 105px !important;
+    min-height: 105px !important;
+    max-height: 105px !important;
+    padding: 10px 20px !important;
+    margin-bottom: 12px !important;
+    overflow: hidden;
+    background-size: cover !important;
+    background-position: center 42% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dashboard-banner img {
+    width: 65px !important;
+    margin: 0 0 2px 0 !important;
+}
+
+.dashboard-banner h2 {
+    font-size: 22px !important;
+    margin: 0 !important;
+    line-height: 1.1 !important;
+}
+
+.dashboard-banner .banner-text {
+    font-size: 12px !important;
+    margin: 4px 0 0 0 !important;
+    line-height: 1.2 !important;
+}
+
+.dashboard-banner + .kpi-grid {
+    margin-top: 8px !important;
+}
+
+/* ==========================================================
+   PORTADA INSTITUCIONAL VIGÍARED
+   ========================================================== */
+
+.home-hero {
+    position: relative;
+    padding: 34px 38px;
+    min-height: 590px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.96) 0%,
+            rgba(255,255,255,0.89) 43%,
+            rgba(255,255,255,0.16) 72%
+        ),
+        url('/assets/banner-bg.png');
+
     background-size: cover;
+    background-position: center;
+
+    box-shadow:
+        0 5px 20px rgba(23, 50, 77, 0.08);
+
+    border:
+        1px solid rgba(23,50,77,0.06);
+
+    overflow: hidden;
+}
+
+
+/* ==========================================
+   ETIQUETA SUPERIOR
+========================================== */
+
+.project-badge {
+    display: inline-block;
+
+    background-color:
+        rgba(42,157,143,0.14);
+
+    color: var(--azul-institucional);
+
+    padding: 9px 16px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 13px;
+}
+
+
+/* ==========================================
+   TÍTULO PRINCIPAL
+========================================== */
+
+.home-title {
+    margin: 0;
+
+    font-size: 43px;
+
+    line-height: 1.08;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+}
+
+.title-blue {
+    color: var(--azul-institucional);
+}
+
+.title-green {
+    color: var(--verde-analitico);
+}
+
+
+/* ==========================================
+   ESLOGAN
+========================================== */
+
+.home-slogan {
+    margin:
+        8px 0 14px 0;
+
+    color:
+        var(--azul-institucional);
+
+    font-size: 21px;
+
+    font-style: italic;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   LÍNEA IDENTIDAD
+========================================== */
+
+.brand-accent-line {
+
+    width: 185px;
+
+    height: 6px;
+
+    border-radius: 10px;
+
+    margin:
+        18px 0 20px 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--verde-analitico) 0%,
+            var(--verde-analitico) 55%,
+            var(--ambar-atencion) 100%
+        );
+}
+
+
+/* ==========================================
+   CONTENIDO HISTORIA
+========================================== */
+
+.home-section-title {
+
+    color:
+        var(--azul-institucional);
+
+    margin:
+        0 0 8px 0;
+
+    font-size: 23px;
+
+    font-weight: 800;
+}
+
+
+.home-description {
+
+    width: 54%;
+
+    max-width: 720px;
+
+    margin:
+        0 0 22px 0;
+
+    color:
+        var(--texto-secundario);
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+/* ==========================================
+   AUTORES
+========================================== */
+
+.authors-card {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 18px;
+
+    width: 53%;
+
+    max-width: 680px;
+
+    padding: 18px 22px;
+
+    background:
+        rgba(255,255,255,0.88);
+
+    border-left:
+        5px solid
+        var(--verde-analitico);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 6px 18px
+        rgba(23,50,77,0.09);
+
+    backdrop-filter: blur(5px);
+
+    margin-bottom: 18px;
+}
+
+
+.authors-icon {
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background:
+        rgba(42,157,143,0.13);
+
+    color:
+        var(--verde-analitico);
+
+    font-size: 22px;
+}
+
+
+.authors-title {
+
+    color:
+        var(--azul-institucional);
+
+    margin:
+        0 0 8px 0;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+
+.author-name {
+
+    color:
+        var(--azul-institucional);
+
+    margin: 4px 0;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.authors-divider {
+
+    height: 1px;
+
+    background:
+        rgba(96,112,128,0.18);
+
+    margin: 10px 0;
+}
+
+
+.authors-university {
+
+    color:
+        var(--texto-secundario);
+
+    margin: 0;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   BOTÓN DASHBOARD
+========================================== */
+
+.dashboard-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    min-width: 280px;
+
+    padding:
+        15px 22px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--verde-analitico),
+            #22B5A3
+        );
+
+    color:
+        #FFFFFF !important;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(42,157,143,0.27);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.dashboard-button:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 11px 24px
+        rgba(42,157,143,0.33);
+}
+
+
+.button-arrow {
+
+    font-size: 25px;
+
+    line-height: 1;
+}
+
+
+/* ==========================================================
+   PALETA DE COLORES
+   ========================================================== */
+
+.palette-card {
+
+    margin-top: 20px;
+
+    padding: 17px 22px;
+
+    background:
+        var(--blanco-tarjetas);
+
+    border-radius: 14px;
+
+    display: grid;
+
+    grid-template-columns:
+        320px 1fr;
+
+    align-items: center;
+
+    gap: 25px;
+
+    box-shadow:
+        0 4px 16px
+        rgba(23,50,77,0.07);
+
+    border:
+        1px solid
+        rgba(23,50,77,0.06);
+}
+
+
+.palette-intro {
+
+    display: flex;
+
+    align-items:
+        flex-start;
+
+    gap: 13px;
+}
+
+
+.palette-icon {
+
+    font-size: 30px;
+}
+
+
+.palette-title {
+
+    margin:
+        0 0 3px 0;
+
+    color:
+        var(--azul-institucional);
+
+    font-size: 16px;
+
+    font-weight: 800;
+}
+
+
+.palette-description {
+
+    margin: 0;
+
+    color:
+        var(--texto-secundario);
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+/* ==========================================
+   COLORES
+========================================== */
+
+.palette-colors {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, minmax(105px,1fr));
+
+    gap: 8px;
+}
+
+
+.color-item {
+
+    min-height: 62px;
+
+    padding:
+        9px 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    border:
+
+        1px solid
+        rgba(23,50,77,0.08);
+
+    border-radius:
+        9px;
+
+    background:
+        #FFFFFF;
+}
+
+
+.color-item strong {
+
+    display: block;
+
+    color:
+        var(--azul-institucional);
+
+    font-size: 10px;
+
+    line-height: 1.2;
+}
+
+
+.color-item small {
+
+    display: block;
+
+    color:
+        var(--texto-secundario);
+
+    font-size: 9px;
+
+    margin-top: 3px;
+}
+
+
+.color-circle {
+
+    width: 30px;
+
+    height: 30px;
+
+    min-width: 30px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(0,0,0,0.10);
+}
+
+
+/* COLORES REALES */
+
+.color-blue {
+    background:
+        #17324D;
+}
+
+.color-green {
+    background:
+        #2A9D8F;
+}
+
+.color-amber {
+    background:
+        #E9A23B;
+}
+
+.color-red {
+    background:
+        #D9534F;
+}
+
+.color-background {
+    background:
+        #F4F6F8;
+}
+
+.color-white {
+    background:
+        #FFFFFF;
+}
+
+.color-gray {
+    background:
+        #607080;
+}
+
+@media (max-width: 768px) {
+
+    .home-hero {
+
+        padding:
+            24px 20px;
+
+        min-height: auto;
+
+        background-position:
+            65% center;
+    }
+
+
+    .home-title {
+
+        font-size: 30px;
+    }
+
+
+    .home-slogan {
+
+        font-size: 16px;
+    }
+
+
+    .home-description {
+
+        width: 100%;
+
+        background:
+            rgba(255,255,255,0.82);
+
+        padding: 12px;
+
+        border-radius: 8px;
+    }
+
+
+    .authors-card {
+
+        width: 100%;
+    }
+
+
+    .dashboard-button {
+
+        width: 100%;
+
+        min-width: 0;
+    }
+
+
+    .palette-card {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .palette-colors {
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
 }

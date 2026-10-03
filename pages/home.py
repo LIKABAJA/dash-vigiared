@@ -1,118 +1,203 @@
-from pathlib import Path
 import dash
 from dash import html, dcc
-import plotly.express as px
-import pandas as pd
 
-dash.register_page(__name__, path='/', title='Inicio')
-
-# Cargar Datos
-BASE_DIR = Path(__file__).resolve().parent.parent
-df_hist = pd.read_excel(BASE_DIR / 'data' / 'histórico_filtrado_proc.xlsx')
-df_eq = pd.read_excel(BASE_DIR / 'data' / 'equipos_proc.xlsx')
-
-# KPIs
-total_avisos = len(df_hist)
-total_equipos = len(df_eq)
-cerrados = len(df_hist[df_hist['Estado aviso'] == 'Cerrado'])
-pct_cerrados = round((cerrados / total_avisos) * 100, 1)
-abiertos = len(df_hist[df_hist['Estado aviso'] == 'Abierto'])
-pct_abiertos = round((abiertos / total_avisos) * 100, 1)
-
-# Figura 1: Líneas
-df_line = df_hist.groupby(['Año', 'Tipo de aviso']).size().reset_index(name='Cantidad')
-df_top = df_line[df_line['Tipo de aviso'].isin(['Vegetación', 'Construcciones'])]
-df_oth = df_line[~df_line['Tipo de aviso'].isin(['Vegetación', 'Construcciones'])].groupby('Año')['Cantidad'].sum().reset_index()
-df_oth['Tipo de aviso'] = 'Otros'
-df_line_final = pd.concat([df_top, df_oth]).sort_values('Año')
-
-fig_line = px.line(
-    df_line_final, x='Año', y='Cantidad', color='Tipo de aviso', markers=True,
-    color_discrete_map={'Vegetación': '#2A9D8F', 'Construcciones': '#E9A23B', 'Otros': '#17324D'},
-    template='plotly_white'
-)
-fig_line.update_layout(
-    margin=dict(l=20, r=20, t=10, b=20),
-    height=260,
-    legend=dict(orientation="h", yanchor="bottom", y=-0.35, xanchor="center", x=0.5)
-)
-
-# Figura 2: Polar
-df_polar = df_hist.groupby(['Mes', 'nMes', 'Tipo de aviso']).size().reset_index(name='Cantidad')
-df_polar_top = df_polar[df_polar['Tipo de aviso'].isin(['Vegetación', 'Construcciones'])]
-df_polar_oth = df_polar[~df_polar['Tipo de aviso'].isin(['Vegetación', 'Construcciones'])].groupby(['Mes', 'nMes'])['Cantidad'].sum().reset_index()
-df_polar_oth['Tipo de aviso'] = 'Otros'
-df_polar_final = pd.concat([df_polar_top, df_polar_oth]).sort_values('Mes')
-
-fig_polar = px.line_polar(
-    df_polar_final, r='Cantidad', theta='nMes', color='Tipo de aviso', line_close=True,
-    color_discrete_map={'Vegetación': '#2A9D8F', 'Construcciones': '#E9A23B', 'Otros': '#17324D'},
-    template='plotly_white'
-)
-fig_polar.update_layout(
-    margin=dict(l=30, r=30, t=10, b=20),
-    height=260,
-    legend=dict(orientation="h", yanchor="bottom", y=-0.35, xanchor="center", x=0.5)
-)
+dash.register_page(__name__, path='/', title='Inicio - VigíaRed Energía')
 
 layout = html.Div([
-    # Banner Bienvenida
-    html.Div(className='card-banner', children=[
-        html.H5("Bienvenido a", className='banner-welcome'),
-        html.H1("VigíaRed Energía S.A.S.", className='banner-title'),
-        html.P("Monitoreamos la red, anticipamos el riesgo.", className='banner-slogan'),
-        html.P(
-            "Plataforma de análisis para la gestión y operación de avisos asociados a infraestructura de transmisión eléctrica. "
-            "Integramos información histórica y territorial para identificar patrones, evaluar el cumplimiento de los tiempos de atención y apoyar la toma de decisiones.",
-            className='banner-text'
-        )
-    ]),
 
-    # Grilla de KPIs
-    html.Div(className='kpi-grid', children=[
-        html.Div(className='kpi-card', children=[
-            html.Div("📄", className='kpi-icon'),
-            html.Div([
-                html.H3(f"{total_avisos:,}".replace(',', '.'), className='kpi-value-main'),
-                html.Span("Avisos históricos", className='kpi-label')
-            ])
-        ]),
+    # ======================================================
+    # PORTADA PRINCIPAL
+    # ======================================================
+    html.Div(
+        className="home-hero",
+        children=[
 
-        html.Div(className='kpi-card', children=[
-            html.Div("🗼", className='kpi-icon'),
-            html.Div([
-                html.H3(f"{total_equipos:,}".replace(',', '.'), className='kpi-value-main'),
-                html.Span("Equipos georreferenciados", className='kpi-label')
-            ])
-        ]),
+            # Etiqueta superior
+            html.Div(
+                "▣  Proyecto de Visualización de Datos",
+                className="project-badge"
+            ),
 
-        html.Div(className='kpi-card', children=[
-            html.Div("✔️", className='kpi-icon'),
-            html.Div([
-                html.H3(f"{pct_cerrados}%".replace('.', ','), className='kpi-value-green'),
-                html.Span("Avisos cerrados", className='kpi-label')
-            ])
-        ]),
+            # Título
+            html.H1(
+                [
+                    html.Span("VigíaRed ", className="title-blue"),
+                    html.Span("Energía S.A.S.", className="title-green")
+                ],
+                className="home-title"
+            ),
 
-        html.Div(className='kpi-card', children=[
-            html.Div("🕒", className='kpi-icon'),
-            html.Div([
-                html.H3(f"{pct_abiertos}%".replace('.', ','), className='kpi-value-red'),
-                html.Span("Avisos abiertos", className='kpi-label')
-            ])
-        ]),
-    ]),
+            # Eslogan
+            html.P(
+                "Monitoreamos la red, anticipamos el riesgo.",
+                className="home-slogan"
+            ),
 
-    # Gráficas
-    html.Div(className='charts-grid-2col', children=[
-        html.Div(className='chart-card', children=[
-            html.H4("Evolución de avisos por año", className='chart-title'),
-            dcc.Graph(figure=fig_line, config={'displayModeBar': False})
-        ]),
+            # Línea de colores
+            html.Div(className="brand-accent-line"),
 
-        html.Div(className='chart-card', children=[
-            html.H4("Distribución mensual de avisos (vista polar)", className='chart-title'),
-            dcc.Graph(figure=fig_polar, config={'displayModeBar': False})
-        ])
-    ])
+            # Nuestra historia
+            html.H2(
+                "Nuestra historia",
+                className="home-section-title"
+            ),
+
+            html.P(
+                [
+                    html.Strong("VigíaRed Energía S.A.S. "),
+                    "nace como una propuesta orientada al monitoreo y análisis "
+                    "de información relacionada con la infraestructura de transmisión eléctrica. "
+                    "A través del uso de datos históricos de avisos y equipos, busca facilitar "
+                    "la identificación de tendencias y apoyar la gestión operativa."
+                ],
+                className="home-description"
+            ),
+
+            # ==================================================
+            # AUTORES
+            # ==================================================
+            html.Div(
+                className="authors-card",
+                children=[
+
+                    html.Div(
+                        "♟",
+                        className="authors-icon"
+                    ),
+
+                    html.Div([
+                        html.H3(
+                            "Autores",
+                            className="authors-title"
+                        ),
+
+                        html.P(
+                            "Linda Barrera Jaramillo",
+                            className="author-name"
+                        ),
+
+                        html.P(
+                            "Danny Ortiz Quintero",
+                            className="author-name"
+                        ),
+
+                        html.P(
+                            "Diana Huertas",
+                            className="author-name"
+                        ),
+
+                        html.Div(className="authors-divider"),
+
+                        html.P(
+                            "🎓 Universidad Central · Maestría en Analítica de Datos",
+                            className="authors-university"
+                        )
+                    ])
+                ]
+            ),
+
+            # ==================================================
+            # BOTÓN
+            # ==================================================
+            dcc.Link(
+                [
+                    html.Span("Ingresar al Dashboard"),
+                    html.Span("→", className="button-arrow")
+                ],
+                href="/dashboard",
+                className="dashboard-button"
+            )
+        ]
+    ),
+
+    # ======================================================
+    # PALETA INSTITUCIONAL
+    # ======================================================
+    html.Div(
+        className="palette-card",
+        children=[
+
+            html.Div(
+                className="palette-intro",
+                children=[
+                    html.Div("🎨", className="palette-icon"),
+
+                    html.Div([
+                        html.H3(
+                            "Paleta de colores institucional",
+                            className="palette-title"
+                        ),
+
+                        html.P(
+                            "Estos colores representan la identidad visual de VigíaRed "
+                            "Energía S.A.S. y se utilizan en todo el dashboard.",
+                            className="palette-description"
+                        )
+                    ])
+                ]
+            ),
+
+            html.Div(
+                className="palette-colors",
+                children=[
+
+                    html.Div([
+                        html.Div(className="color-circle color-blue"),
+                        html.Div([
+                            html.Strong("Azul institucional"),
+                            html.Small("#17324D")
+                        ])
+                    ], className="color-item"),
+
+                    html.Div([
+                        html.Div(className="color-circle color-green"),
+                        html.Div([
+                            html.Strong("Verde analítico"),
+                            html.Small("#2A9D8F")
+                        ])
+                    ], className="color-item"),
+
+                    html.Div([
+                        html.Div(className="color-circle color-amber"),
+                        html.Div([
+                            html.Strong("Ámbar atención"),
+                            html.Small("#E9A23B")
+                        ])
+                    ], className="color-item"),
+
+                    html.Div([
+                        html.Div(className="color-circle color-red"),
+                        html.Div([
+                            html.Strong("Rojo riesgo"),
+                            html.Small("#D9534F")
+                        ])
+                    ], className="color-item"),
+
+                    html.Div([
+                        html.Div(className="color-circle color-background"),
+                        html.Div([
+                            html.Strong("Fondo general"),
+                            html.Small("#F4F6F8")
+                        ])
+                    ], className="color-item"),
+
+                    html.Div([
+                        html.Div(className="color-circle color-white"),
+                        html.Div([
+                            html.Strong("Blanco tarjetas"),
+                            html.Small("#FFFFFF")
+                        ])
+                    ], className="color-item"),
+
+                    html.Div([
+                        html.Div(className="color-circle color-gray"),
+                        html.Div([
+                            html.Strong("Texto secundario"),
+                            html.Small("#607080")
+                        ])
+                    ], className="color-item")
+                ]
+            )
+        ]
+    )
 ])
